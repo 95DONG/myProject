@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div
+      id="box"
+      contenteditable="true"
+      style="
+        width: 600px;
+        min-height: 300px;
+        text-align: justify;
+        margin: 100px auto;
+        border: 1px solid orange;
+      "
+    ></div>
+    <button id="btn">获取值</button>
+    <div
+      id="tip"
+      style="
+        width: 600px;
+        min-height: 200px;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        overflow: scroll;
+      "
+    ></div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+      document.querySelector('#box').addEventListener('paste', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        let paste = (e.clipboardData || window.clipboardData).getData(
+          'text/html'
+        )
+        const selection = window.getSelection()
+        if (!selection.rangeCount) return false
+        $('#box').html(paste)
+      })
+      document.querySelector('#btn').addEventListener('click', () => {
+        console.log(222)
+        getValue()
+      })
+      var fontValue = ['name', 'price', 'Code', 'num']
+      function getValue() {
+        var tableArr = $('#box tr') || []
+        var data = []
+        for (var i = 0; i < tableArr.length; i++) {
+          var trtemp = tableArr[i]
+          var obj = {}
+          var tdTemp = $(trtemp).find('td')
+          for (var x = 0; x < $(tdTemp).length; x++) {
+            var removeSpace = $(tdTemp).eq(x).text().replace(/\s*/g, '')
+            obj[fontValue[x]] = removeSpace
+          }
+          data.push(obj)
+        }
+        var str = JSON.stringify(data, undefined, 4)
+        $('#tip').html('<pre>' + str + '<pre>')
+      }
+    </script>
+  </body>
+</html>

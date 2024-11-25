@@ -2,12 +2,15 @@
   <div>
     <el-container style="height: 100vh">
       <el-header>
-        <!-- <tabs style="width: 100%; height: 100%" /> -->
-        header
+        <div style="display: flex">
+          <div style="font-size: 30px; font-weight: 900; height: 30px">
+            logo
+          </div>
+        </div>
       </el-header>
       <el-container>
-        <el-aside width="260px" style="border-right: 1px solid #e6e6e6">
-          <el-menu router :default-active="activeIndex" @open="handleOpen">
+        <el-aside width="200px" style="border-right: 1px solid #e6e6e6">
+          <el-menu router :default-active="activeIndex">
             <el-menu-item index="/home">首页 </el-menu-item>
             <el-submenu index="1">
               <template slot="title"
@@ -29,6 +32,12 @@
               <el-menu-item index="/coupon">coupon</el-menu-item>
               <el-menu-item index="/consoleTable">consoleTable</el-menu-item>
               <el-menu-item index="/home">表 </el-menu-item>
+            </el-submenu>
+
+            <el-submenu index="3">
+              <template slot="title"><i class="el-icon-menu"></i>测试</template>
+              <el-menu-item index="/step">移动端表格</el-menu-item>
+              <el-menu-item index="/testNumber">测试数据</el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -55,8 +64,6 @@ export default {
 
   },
   methods: {
-    handleOpen (key, keyPath) {
-    },
   },
   components: {
     tabs

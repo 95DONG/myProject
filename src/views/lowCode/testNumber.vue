@@ -1,54 +1,13 @@
 <template>
-  <div class="page-component__scroll">
-    <el-button type="primary" @click="changeNum" style="margin-left: 50px"
-      >变化</el-button
+  <div>
+    <el-tree
+      show-checkbox
+      :load="loadNode"
+      check-strictly
+      lazy
+      :props="defaultProps"
     >
-    <el-input v-model.number="num" type="number"></el-input>
-    <!-- 盒子 -->
-    <div
-      style="
-        width: 30px;
-        border: 1px solid #e6e6e6;
-        height: 30px;
-        position: relative;
-      "
-    >
-      <div
-        :style="'position: absolute; top: ' + testTop + 'px; transition: 200ms'"
-      >
-        <div
-          v-for="n in numberItem"
-          :key="n"
-          style="
-            width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          "
-        >
-          {{ n }}
-        </div>
-      </div>
-    </div>
-    <el-backtop
-      target=".page-component__scroll .el-scrollbar__wrap"
-      :bottom="100"
-    >
-      <div
-        style="
-          height: 100%;
-          width: 100%;
-          background-color: #f2f5f6;
-          box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
-          text-align: center;
-          line-height: 40px;
-          color: #1989fa;
-        "
-      >
-        UP
-      </div>
-    </el-backtop>
+    </el-tree>
   </div>
 </template>
 
@@ -56,51 +15,171 @@
 export default {
   data () {
     return {
-      transition: '2000ms',
-      numberItem: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ',', '.', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ',', '.', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ',', '.'],
-      testTop: -30
+      defaultProps: {
+        label: 'label',
+        children: 'children',
+        isLeaf: 'isLeaf'
+      },
+      treeData: [
+        {
+          "id": "SHENGWEIBANGONGTING",
+          "parentId": "0",
+          "label": "省委办公厅",
+          "isLeaf": false,
+          "children": [
+            {
+              "id": "SHENGWEIBANGONGTING_DUCHABAN",
+              "parentId": "SHENGWEIBANGONGTING",
+              "label": "督查办",
+              "value": null,
+              "weight": 5,
+              "isLock": true,
+              "isLeaf": false,
+              "isCheck": false,
+              "children": [
+                {
+                  "id": "SHENGWEIBANGONGTING_DUCHABAN_DUCHAYICHU",
+                  "parentId": "SHENGWEIBANGONGTING_DUCHABAN",
+                  "label": "督察一处",
+                  "value": null,
+                  "weight": 51,
+                  "isLock": false,
+                  "isLeaf": true,
+                  "isCheck": false,
+                  "children": [],
+                  "code": null,
+                  "contact": null,
+                  "contactCode": null,
+                  "contactMobile": null,
+                  "divCode": null,
+                  "divName": null,
+                  "foundTime": null,
+                  "functionary": null,
+                  "functionaryCode": null,
+                  "leader": null,
+                  "leaderCode": null,
+                  "leafStatus": null,
+                  "name": null,
+                  "no": null,
+                  "describe": null,
+                  "orgFunction": null,
+                  "type": null,
+                  "parentCode": null,
+                  "parentName": null,
+                  "parentNo": null,
+                  "status": null,
+                  "leaderNo": null,
+                  "siteId": null,
+                  "levelCode": null,
+                  "category": "xingzhengjiguan",
+                  "decideCount": 0,
+                  "indeedCount": 0
+                }
+              ],
+              "code": null,
+              "contact": null,
+              "contactCode": null,
+              "contactMobile": null,
+              "divCode": null,
+              "divName": null,
+              "foundTime": null,
+              "functionary": null,
+              "functionaryCode": null,
+              "leader": null,
+              "leaderCode": null,
+              "leafStatus": null,
+              "name": null,
+              "no": null,
+              "describe": null,
+              "orgFunction": null,
+              "type": null,
+              "parentCode": null,
+              "parentName": null,
+              "parentNo": null,
+              "status": null,
+              "leaderNo": null,
+              "siteId": null,
+              "levelCode": null,
+              "category": "xingzhengjiguan",
+              "decideCount": 0,
+              "indeedCount": 0
+            },
+            {
+              "id": "SHENGWEIBANGONGTING_ZHUANYONGTONGXINJU",
+              "parentId": "SHENGWEIBANGONGTING",
+              "label": "专用通信局",
+              "value": null,
+              "weight": 6,
+              "isLock": false,
+              "isLeaf": true,
+              "isCheck": false,
+              "children": [],
+              "code": null,
+              "contact": null,
+              "contactCode": null,
+              "contactMobile": null,
+              "divCode": null,
+              "divName": null,
+              "foundTime": null,
+              "functionary": null,
+              "functionaryCode": null,
+              "leader": null,
+              "leaderCode": null,
+              "leafStatus": null,
+              "name": null,
+              "no": null,
+              "describe": null,
+              "orgFunction": null,
+              "type": null,
+              "parentCode": null,
+              "parentName": null,
+              "parentNo": null,
+              "status": null,
+              "leaderNo": null,
+              "siteId": null,
+              "levelCode": null,
+              "category": "xingzhengjiguan",
+              "decideCount": 0,
+              "indeedCount": 0
+            }
+          ]
+        }
+      ]
     };
   },
-  created () {
-  },
-  watch: {
-  },
   methods: {
-    changeNum () {
-      this.handelerChange = true
-      this.num += 16
-      this.testTop -= 30
+    loadNode (node, resolve) {
+      if (node.level === 0) {
+        return resolve([{
+          "id": "SHENGWEIBANGONGTING",
+          "parentId": "0",
+          "label": "省委办公厅",
+          "isLeaf": false,
+        }]);
+      } else {
 
+        return resolve(this.getOneLeaft(this.treeData, node.data.id));
+      }
     },
+    getOneLeaft (data, id) {
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i];
+
+        if (item.id === id) {
+          item.children.children = []
+          return item.children
+        } else {
+          if (item.children && item.children.length > 0) {
+            let res = this.getOneLeaft(item.children, id);
+            if (res) return res;
+          }
+        }
+      }
+    }
+
   }
 };
 </script>
 
-<style scoped>
-.bigBox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.itemBox {
-  width: 20px;
-  height: 30px;
-  border: 1px solid #333;
-  position: relative;
-  overflow: hidden;
-}
-.item {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  /* transition: 2000ms; */
-  top: 0px;
-}
-.item div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 30px;
-}
+<style>
 </style>

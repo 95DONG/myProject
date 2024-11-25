@@ -1,65 +1,129 @@
 <template>
-  <div class="block">
-    <div style="flex: 1; width: 200px">
-      <el-input placeholder="输入关键字进行过滤" v-model="filterText">
-      </el-input>
-      <el-tree
-        class="myTree"
-        v-if="showTree"
-        default-expand-all
-        draggable
-        highlight-current
-        ref="tree"
-        node-key="id"
-        :data="data"
-        :current-node-key="current"
-        :filter-node-method="filterNode"
-        :expand-on-click-node="false"
-        :allow-drop="allowDrop"
-        :allow-drag="allowDrag"
-        @node-drop="handleDrop"
-        :props="defaultProps"
-        @node-click="handleNodeClick"
+  <div>
+    <div class="block" id="block">
+      <div style="flex: 1; width: 200px; display: flex">
+        <el-input placeholder="输入关键字进行过滤" v-model="filterText">
+        </el-input>
+        <el-tree
+          class="myTree"
+          v-if="showTree"
+          default-expand-all
+          draggable
+          highlight-current
+          ref="tree"
+          node-key="id"
+          :data="data"
+          :current-node-key="current"
+          :filter-node-method="filterNode"
+          :expand-on-click-node="false"
+          :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+          @node-drop="handleDrop"
+          :props="defaultProps"
+          @node-click="handleNodeClick"
+        >
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <div class="itemTree">
+              <span
+                >{{ node.label
+                }}<span
+                  v-if="data.interactive"
+                  style="
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: red;
+                  "
+                >
+                </span
+              ></span>
+              <span class="btn">
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => append(node, data)"
+                >
+                  复制
+                </el-button>
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)"
+                >
+                  删除
+                </el-button>
+              </span>
+            </div>
+          </span>
+        </el-tree>
+        <el-tree
+          class="myTree"
+          default-expand-all
+          draggable
+          highlight-current
+          ref="tree"
+          node-key="id"
+          :data="flatData1"
+          :current-node-key="current"
+          :filter-node-method="filterNode"
+          :expand-on-click-node="false"
+          :allow-drop="allowDrop"
+          :allow-drag="allowDrag"
+          @node-drop="handleDrop"
+          :props="defaultProps1"
+          @node-click="handleNodeClick"
+        >
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <div class="itemTree">
+              <span
+                >{{ node.label
+                }}<span
+                  style="
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: red;
+                  "
+                >
+                </span
+              ></span>
+              <span class="btn">
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => append(node, data)"
+                >
+                  复制
+                </el-button>
+                <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)"
+                >
+                  删除
+                </el-button>
+              </span>
+            </div>
+          </span>
+        </el-tree>
+      </div>
+      <el-button type="primary" @click="changeCity" style="width: 200px"
+        >按钮</el-button
       >
-        <span class="custom-tree-node" slot-scope="{ node, data }">
-          <div class="itemTree">
-            <span
-              >{{ node.label
-              }}<span
-                v-if="data.interactive"
-                style="
-                  display: inline-block;
-                  width: 10px;
-                  height: 10px;
-                  border-radius: 50%;
-                  background-color: red;
-                "
-              >
-              </span
-            ></span>
-            <span class="btn">
-              <el-button
-                type="text"
-                size="mini"
-                @click="() => append(node, data)"
-              >
-                复制
-              </el-button>
-              <el-button
-                type="text"
-                size="mini"
-                @click="() => remove(node, data)"
-              >
-                删除
-              </el-button>
-            </span>
-          </div>
-        </span>
-      </el-tree>
     </div>
-    <el-button type="primary" @click="changeCity" style="width: 200px"
-      >按钮</el-button
-    >
+    <el-cascader
+      v-model="value"
+      :options="options"
+      @change="handleChange"
+    ></el-cascader>
+    <el-button @click="printBtn">打印</el-button>
+    <el-carousel indicator-position="outside">
+      <el-carousel-item v-for="item in 4" :key="item">
+        <h3>{{ item }} + '这是一个'</h3>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
@@ -127,6 +191,7 @@ export default {
     ];
     return {
       data: JSON.parse(JSON.stringify(data)),
+      data2: JSON.parse(JSON.stringify(data)),
       filterText: '',
       showTree: true,
       current: 4,
@@ -134,7 +199,318 @@ export default {
         children: 'children',
         label: 'label'
       },
-      ids: []
+      defaultProps1: {
+        children: 'children',
+        label: 'c_month'
+      },
+      ids: [],
+      options: [{
+        value: 'zhinan',
+        label: '指南',
+        children: [{
+          value: 'shejiyuanze',
+          label: '设计原则',
+          children: [{
+            value: 'yizhi',
+            label: '一致'
+          }, {
+            value: 'fankui',
+            label: '反馈'
+          }, {
+            value: 'xiaolv',
+            label: '效率'
+          }, {
+            value: 'kekong',
+            label: '可控'
+          }]
+        }, {
+          value: 'daohang',
+          label: '导航',
+          children: [{
+            value: 'cexiangdaohang',
+            label: '侧向导航'
+          }, {
+            value: 'dingbudaohang',
+            label: '顶部导航'
+          }]
+        }]
+      }, {
+        value: 'zujian',
+        label: '组件',
+        children: [{
+          value: 'basic',
+          label: 'Basic',
+          children: [{
+            value: 'layout',
+            label: 'Layout 布局'
+          }, {
+            value: 'color',
+            label: 'Color 色彩'
+          }, {
+            value: 'typography',
+            label: 'Typography 字体'
+          }, {
+            value: 'icon',
+            label: 'Icon 图标'
+          }, {
+            value: 'button',
+            label: 'Button 按钮'
+          }]
+        }, {
+          value: 'form',
+          label: 'Form',
+          children: [{
+            value: 'radio',
+            label: 'Radio 单选框'
+          }, {
+            value: 'checkbox',
+            label: 'Checkbox 多选框'
+          }, {
+            value: 'input',
+            label: 'Input 输入框'
+          }, {
+            value: 'input-number',
+            label: 'InputNumber 计数器'
+          }, {
+            value: 'select',
+            label: 'Select 选择器'
+          }, {
+            value: 'cascader',
+            label: 'Cascader 级联选择器'
+          }, {
+            value: 'switch',
+            label: 'Switch 开关'
+          }, {
+            value: 'slider',
+            label: 'Slider 滑块'
+          }, {
+            value: 'time-picker',
+            label: 'TimePicker 时间选择器'
+          }, {
+            value: 'date-picker',
+            label: 'DatePicker 日期选择器'
+          }, {
+            value: 'datetime-picker',
+            label: 'DateTimePicker 日期时间选择器'
+          }, {
+            value: 'upload',
+            label: 'Upload 上传'
+          }, {
+            value: 'rate',
+            label: 'Rate 评分'
+          }, {
+            value: 'form',
+            label: 'Form 表单'
+          }]
+        }, {
+          value: 'data',
+          label: 'Data',
+          children: [{
+            value: 'table',
+            label: 'Table 表格'
+          }, {
+            value: 'tag',
+            label: 'Tag 标签'
+          }, {
+            value: 'progress',
+            label: 'Progress 进度条'
+          }, {
+            value: 'tree',
+            label: 'Tree 树形控件'
+          }, {
+            value: 'pagination',
+            label: 'Pagination 分页'
+          }, {
+            value: 'badge',
+            label: 'Badge 标记'
+          }]
+        }, {
+          value: 'notice',
+          label: 'Notice',
+          children: [{
+            value: 'alert',
+            label: 'Alert 警告'
+          }, {
+            value: 'loading',
+            label: 'Loading 加载'
+          }, {
+            value: 'message',
+            label: 'Message 消息提示'
+          }, {
+            value: 'message-box',
+            label: 'MessageBox 弹框'
+          }, {
+            value: 'notification',
+            label: 'Notification 通知'
+          }]
+        }, {
+          value: 'navigation',
+          label: 'Navigation',
+          children: [{
+            value: 'menu',
+            label: 'NavMenu 导航菜单'
+          }, {
+            value: 'tabs',
+            label: 'Tabs 标签页'
+          }, {
+            value: 'breadcrumb',
+            label: 'Breadcrumb 面包屑'
+          }, {
+            value: 'dropdown',
+            label: 'Dropdown 下拉菜单'
+          }, {
+            value: 'steps',
+            label: 'Steps 步骤条'
+          }]
+        }, {
+          value: 'others',
+          label: 'Others',
+          children: [{
+            value: 'dialog',
+            label: 'Dialog 对话框'
+          }, {
+            value: 'tooltip',
+            label: 'Tooltip 文字提示'
+          }, {
+            value: 'popover',
+            label: 'Popover 弹出框'
+          }, {
+            value: 'card',
+            label: 'Card 卡片'
+          }, {
+            value: 'carousel',
+            label: 'Carousel 走马灯'
+          }, {
+            value: 'collapse',
+            label: 'Collapse 折叠面板'
+          }]
+        }]
+      }, {
+        value: 'ziyuan',
+        label: '资源',
+        children: [{
+          value: 'axure',
+          label: 'Axure Components'
+        }, {
+          value: 'sketch',
+          label: 'Sketch Templates'
+        }, {
+          value: 'jiaohu',
+          label: '组件交互文档'
+        }]
+      }],
+      flatData1: [
+        {
+          "c_year": 2024,
+          "c_month": 8,
+          "year": 2024,
+          "month": 8
+        },
+        {
+          "c_year": 2024,
+          "c_month": 7,
+          "year": 2024,
+          "month": 7
+        },
+        {
+          "c_year": 2024,
+          "c_month": 6,
+          "year": 2024,
+          "month": 6
+        },
+        {
+          "c_year": 2025,
+          "c_month": 6,
+          "year": 2025,
+          "month": 6
+        }
+      ],
+      mapData: [
+        {
+          "fiscal_year": "2024",
+          "month": 1,
+          "mof_div_code": "33",
+          "mof_div_name": "浙江省",
+          "hzb": "month",
+          "zzb": "value1,value2",
+          "zzb_num": 2,
+          "zzb_unit": "收入进度 %,序时进度 %",
+          "value1": 14.65,
+          "value1_unit": "%",
+          "value2": 8.33,
+          "value2_unit": "%"
+        },
+        {
+          "fiscal_year": "2024",
+          "month": 2,
+          "mof_div_code": "33",
+          "mof_div_name": "浙江省",
+          "hzb": "month",
+          "zzb": "value1,value2",
+          "zzb_num": 2,
+          "zzb_unit": "收入进度 %,序时进度 %",
+          "value1": 23.65,
+          "value1_unit": "%",
+          "value2": 16.67,
+          "value2_unit": "%"
+        },
+        {
+          "fiscal_year": "2024",
+          "month": 3,
+          "mof_div_code": "33",
+          "mof_div_name": "浙江省",
+          "hzb": "month",
+          "zzb": "value1,value2",
+          "zzb_num": 2,
+          "zzb_unit": "收入进度 %,序时进度 %",
+          "value1": 35.42,
+          "value1_unit": "%",
+          "value2": 25,
+          "value2_unit": "%"
+        },
+        {
+          "fiscal_year": "2024",
+          "month": 4,
+          "mof_div_code": "33",
+          "mof_div_name": "浙江省",
+          "hzb": "month",
+          "zzb": "value1,value2",
+          "zzb_num": 2,
+          "zzb_unit": "收入进度 %,序时进度 %",
+          "value1": 45.01,
+          "value1_unit": "%",
+          "value2": 33.33,
+          "value2_unit": "%"
+        },
+        {
+          "fiscal_year": "2024",
+          "month": 5,
+          "mof_div_code": "33",
+          "mof_div_name": "浙江省",
+          "hzb": "month",
+          "zzb": "value1,value2",
+          "zzb_num": 2,
+          "zzb_unit": "收入进度 %,序时进度 %",
+          "value1": 51.58,
+          "value1_unit": "%",
+          "value2": 41.67,
+          "value2_unit": "%"
+        },
+        {
+          "fiscal_year": "2024",
+          "month": 6,
+          "mof_div_code": "33",
+          "mof_div_name": "浙江省",
+          "hzb": "month",
+          "zzb": "value1,value2",
+          "zzb_num": 2,
+          "zzb_unit": "收入进度 %,序时进度 %",
+          "value1": 60.96,
+          "value1_unit": "%",
+          "value2": 50,
+          "value2_unit": "%"
+        }
+      ],
     }
   },
   watch: {
@@ -143,6 +519,7 @@ export default {
     }
   },
   created () {
+    this.convertToTree()
     this.current = 4
     let currentCity = {
       id: 4,
@@ -158,6 +535,46 @@ export default {
     this.handleNodeClick(currentCity)
   },
   methods: {
+    printBtn () {
+      //（1）首先获得元素的html内容（这里建议如果有样式最好是用内联样式的方式）
+      var newstr = document.getElementById("block").innerHTML;//得到需要打印的元素HTML
+      console.log(newstr);
+
+      //（2）保存当前页面的整个html，因为window.print()打印操作是打印当前页的所有内容，所以先将当前页面保存起来，之后便于恢复。
+      var oldstr = document.body.innerHTML;//保存当前页面的HTML
+
+      //（3）把当前页面替换为打印内容HTML
+      document.body.innerHTML = newstr;
+
+      //（4）执行打印操作
+      window.print();
+
+      //（5）还原当前页面
+      document.body.innerHTML = oldstr;
+    },
+    //  生成树结构
+    convertToTree () {
+      let treeData = []
+      this.flatData1.forEach(item => {
+        console.log(Array.from(new Set(treeData.map(el => el.value))), "111");
+
+        if (treeData.length > 0 && Array.from(new Set(treeData.map(el => el.value))).includes(item.year)) {
+
+        } else {
+          treeData.push({ value: item.year, children: [] })
+        }
+      })
+      treeData.forEach(el => {
+        this.flatData1.forEach(item => {
+          if (item.year === el.value) {
+            el.children.push({ value: item.month, year: item.year })
+          }
+        })
+      })
+      console.log(treeData);
+      return treeData
+    },
+
     //改变选中态
     changeCity () {
       this.current = 33
@@ -299,6 +716,27 @@ export default {
 
 }
 </script>
+
+<style scoped>
+>>> .el-carousel__container {
+  height: 400px;
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 18px;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
+</style>
 
 <style scoped>
 /* 容器样式 */

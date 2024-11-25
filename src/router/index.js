@@ -55,6 +55,16 @@ const routes = [
     name: 'consoleTable',
     component: () => import('../views/table/consoleTable.vue')
   },
+  {
+    path: '/step',
+    name: 'step',
+    component: () => import('../views/lowCode/step.vue')
+  },
+  {
+    path: '/testNumber',
+    name: 'testNumber',
+    component: () => import('../views/lowCode/testNumber.vue')
+  },
 ]
 
 const router = new VueRouter({

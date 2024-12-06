@@ -196,7 +196,6 @@
               style="width: 340px"
               v-model="form.address"
               :options="options"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-form>

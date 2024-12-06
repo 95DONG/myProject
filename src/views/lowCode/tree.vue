@@ -113,11 +113,7 @@
         >按钮</el-button
       >
     </div>
-    <el-cascader
-      v-model="value"
-      :options="options"
-      @change="handleChange"
-    ></el-cascader>
+    <el-cascader v-model="value" :options="options"></el-cascader>
     <el-button @click="printBtn">打印</el-button>
     <el-carousel indicator-position="outside">
       <el-carousel-item v-for="item in 4" :key="item">

@@ -23,14 +23,14 @@
       <menu-tree
         v-if="child.children && child.children.length > 0"
         :menu="child"
-        :key="child.path"
+        :key="child.name"
       ></menu-tree>
       <el-menu-item
         v-else
         :index="child.path"
-        :key="child.path"
+        :key="child.name"
         style="margin-left: 10px"
-        >{{ child.path }}</el-menu-item
+        >{{ child.meta.title }}</el-menu-item
       >
     </template>
   </el-submenu>

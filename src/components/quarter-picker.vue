@@ -57,7 +57,7 @@
               "
               @click="changeQuarter(item)"
             >
-              {{ item }}
+              {{ item.label }}
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@ export default {
       default: "",
     },
     outWidth: {
-      default: ''
+      default: '200'
     },
     size: {
       default: "small"
@@ -86,7 +86,7 @@ export default {
   },
   data () {
     return {
-      showCard: true,
+      showCard: false,
       selectTime: "",//当前选中时间，格式为2023Q3
 
       showYear: null, //展示的年（下拉框）
@@ -94,7 +94,7 @@ export default {
       selectedYear: null, //被选中的年
       selectedQuarter: "", //被选中的季度
 
-      quarterList: ["第一季度", "第二季度", "第三季度", "第四季度"]
+      quarterList: [{ label: "第一季度", value: 1 }, { label: "第二季度", value: 2 }, { label: "第三季度", value: 3 }, { label: "第四季度", value: 4 },]
     }
   },
   computed: {
@@ -132,7 +132,7 @@ export default {
     //切换季度
     changeQuarter (quarter) {
 
-      this.selectedQuarter = quarter;
+      this.selectedQuarter = quarter.label;
 
       this.selectedYear = this.showYear;
 

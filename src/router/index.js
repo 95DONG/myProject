@@ -13,33 +13,34 @@ const routes = [
     component: home
   },
   {
-    path: '/changeNumber',
-    name: 'changeNumber',
-    meta: { title: "倒计时" },
-    component: () => import('../views/lowCode/changeNumber.vue'),
-  },
-  {
-    path: '/setter', name: '',
+    path: '/', name: 'setter',
     meta: { title: "工具" },
-    redirect: "coupon",
+    component: () => import('../views/layout.vue'),
     children: [
       {
         path: 'coupon',
         name: 'coupon',
         meta: { title: "打孔标签" },
-        component: () => import('../views/coupon/coupon.vue')
+        component: () => import('../views/toolClass/coupon.vue')
       },
       {
         path: 'exportTable',
         name: 'exportTable',
         meta: { title: "表格数据导入" },
-        component: () => import('../views/lowCode/exportTable.vue')
-      }
+        component: () => import('../views/toolClass/exportTable.vue')
+      },
+      {
+        path: '/changeNumber',
+        name: 'changeNumber',
+        meta: { title: "倒计时" },
+        component: () => import('../views/toolClass/changeNumber.vue'),
+      },
     ]
   },
   {
-    path: '/', name: '',
+    path: '', name: 'dates',
     meta: { title: "日期类" },
+    component: () => import('../views/layout.vue'),
     children: [
       {
         path: 'datePicker',

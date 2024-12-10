@@ -9,51 +9,42 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside width="200px" style="border-right: 1px solid #e6e6e6">
+        <el-aside width="300px" style="border-right: 1px solid #e6e6e6">
           <el-menu router :default-active="$route.path" @select="selectChange">
             <template v-for="menu in menuRoutes">
               <menu-tree
                 v-if="menu.children && menu.children.length > 0"
-                :key="menu.path"
+                :key="menu.name"
                 :menu="menu"
               ></menu-tree>
-              <el-menu-item v-else :index="menu.path" :key="menu.path">{{
+              <el-menu-item v-else :index="menu.path" :key="menu.name">{{
                 menu.meta.title
               }}</el-menu-item>
             </template>
           </el-menu>
-          <!--
-          <el-menu router :default-active="activeIndex">
-            <el-menu-item index="/home" v-for="menu in menuRoutes">首页 </el-menu-item>
-            <el-submenu index="1">
-              <template slot="title"
-                ><i class="el-icon-s-platform"></i>低代码</template
-              >
-              <el-menu-item index="/tree">tree</el-menu-item>
-              <el-menu-item index="/datePicker">datePicker</el-menu-item>
-              <el-menu-item index="/changeNumber">changeNumber</el-menu-item>
-              <el-menu-item index="/calendar">calendar</el-menu-item>
-              <el-menu-item index="/computedTable">computedTable</el-menu-item>
-              <el-menu-item index="/tabs">tabs</el-menu-item>
-              <el-menu-item index="/exportTable">exportTable</el-menu-item>
-              <el-menu-item index="/china">china</el-menu-item>
-            </el-submenu>
-            <el-submenu index="2">
-              <template slot="title"
-                ><i class="el-icon-s-platform"></i>图&&表</template
-              >
-              <el-menu-item index="/coupon">coupon</el-menu-item>
-              <el-menu-item index="/consoleTable">consoleTable</el-menu-item>
-              <el-menu-item index="/home">表 </el-menu-item>
-            </el-submenu>
 
-            <el-submenu index="3">
-              <template slot="title"
-                ><i class="el-icon-s-platform"></i>测试</template
+          <!-- <el-menu router :default-active="$route.path" @select="selectChange">
+            <template v-for="menu in menuRoutes">
+              <el-submenu
+                v-if="menu.children && menu.children.length > 0"
+                :key="menu.path"
+                :index="menu.path"
               >
-              <el-menu-item index="/step">移动端表格</el-menu-item>
-              <el-menu-item index="/testNumber">测试数据</el-menu-item>
-            </el-submenu>
+                <template slot="title">
+                  {{ menu.meta.title }}
+                </template>
+                <el-menu-item
+                  :index="child.path"
+                  v-for="child in menu.children"
+                  :key="child.path"
+                >
+                  {{ child.meta.title }}
+                </el-menu-item>
+              </el-submenu>
+              <el-menu-item v-else :index="menu.path" :key="menu.path">{{
+                menu.meta.title
+              }}</el-menu-item>
+            </template>
           </el-menu> -->
         </el-aside>
         <el-main style="height: 100%"> <router-view /></el-main>

@@ -2,8 +2,6 @@
   <div>
     <div class="block" id="block">
       <div style="flex: 1; width: 200px; display: flex">
-        <el-input placeholder="输入关键字进行过滤" v-model="filterText">
-        </el-input>
         <el-tree
           class="myTree"
           v-if="showTree"
@@ -57,69 +55,8 @@
             </div>
           </span>
         </el-tree>
-        <el-tree
-          class="myTree"
-          default-expand-all
-          draggable
-          highlight-current
-          ref="tree"
-          node-key="id"
-          :data="flatData1"
-          :current-node-key="current"
-          :filter-node-method="filterNode"
-          :expand-on-click-node="false"
-          :allow-drop="allowDrop"
-          :allow-drag="allowDrag"
-          @node-drop="handleDrop"
-          :props="defaultProps1"
-          @node-click="handleNodeClick"
-        >
-          <span class="custom-tree-node" slot-scope="{ node, data }">
-            <div class="itemTree">
-              <span
-                >{{ node.label
-                }}<span
-                  style="
-                    display: inline-block;
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background-color: red;
-                  "
-                >
-                </span
-              ></span>
-              <span class="btn">
-                <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => append(node, data)"
-                >
-                  复制
-                </el-button>
-                <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)"
-                >
-                  删除
-                </el-button>
-              </span>
-            </div>
-          </span>
-        </el-tree>
       </div>
-      <el-button type="primary" @click="changeCity" style="width: 200px"
-        >按钮</el-button
-      >
     </div>
-    <el-cascader v-model="value" :options="options"></el-cascader>
-    <el-button @click="printBtn">打印</el-button>
-    <el-carousel indicator-position="outside">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3>{{ item }} + '这是一个'</h3>
-      </el-carousel-item>
-    </el-carousel>
   </div>
 </template>
 
@@ -187,17 +124,12 @@ export default {
     ];
     return {
       data: JSON.parse(JSON.stringify(data)),
-      data2: JSON.parse(JSON.stringify(data)),
       filterText: '',
       showTree: true,
       current: 4,
       defaultProps: {
         children: 'children',
         label: 'label'
-      },
-      defaultProps1: {
-        children: 'children',
-        label: 'c_month'
       },
       ids: [],
       options: [{
@@ -514,7 +446,7 @@ export default {
       this.$refs.tree.filter(val);
     }
   },
-  created () {
+  mounted () {
     this.convertToTree()
     this.current = 4
     let currentCity = {
@@ -619,10 +551,7 @@ export default {
     },
     getIds (nodeItem) {
       this.ids.unshift(nodeItem.data.id)
-      if (nodeItem.parent && nodeItem.parent.data.id) {
-        this.getIds(nodeItem.parent)
-        scope.row.gjjzz == 0 ? '空编' : scope.row.gjjzz == 1 ? '缺编' : scope.row.gjjzz == 2 ? '满编' : '超编'
-      }
+      if (nodeItem.parent && nodeItem.parent.data.id) this.getIds(nodeItem.parent)
     },
     setcurrent (node) {
       setTimeout(() => {

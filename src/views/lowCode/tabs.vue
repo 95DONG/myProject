@@ -218,7 +218,7 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      dialogVisibleAdd: true,
+      dialogVisibleAdd: false,
       options: [{
         value: 'zhinan',
         label: '指南',
